@@ -1,21 +1,28 @@
 class BankAccount:
     def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.balance = balance
+        # Menggunakan double underscore agar menjadi private
+        self.__owner = owner
+        self.__balance = balance
 
     def deposit(self, amount):
+        """Menambahkan saldo dengan validasi jumlah positif."""
         if amount > 0:
-            self.balance += amount
-            return self.balance
+            self.__balance += amount
+            return self.__balance
         else:
-            raise ValueError("Deposit amount must be greater than zero")
+            raise ValueError("Jumlah deposit harus lebih dari nol")
 
     def withdraw(self, amount):
-        if 0 < amount <= self.balance:
-            self.balance -= amount
-            return self.balance
+        """Mengurangi saldo dengan pengecekan kecukupan saldo."""
+        if 0 < amount <= self.__balance:
+            self.__balance -= amount
+            return self.__balance
         else:
-            raise ValueError("Insufficient funds or invalid withdrawal amount")
+            raise ValueError("Saldo tidak mencukupi atau jumlah tidak valid")
 
+    # Metode 'getter' agar Unit Test tetap bisa mengakses nilai secara aman
     def get_balance(self):
-        return self.balance
+        return self.__balance
+
+    def get_owner(self):
+        return self.__owner
